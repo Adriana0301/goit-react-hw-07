@@ -1,8 +1,17 @@
-# React + Vite
+Рефакторинг коду застосунку «Книга контактів».
+Додано взаємодію з бекендом для зберігання контактів.
+Використано функцію createAsyncThunk для оголошення операцій.
+Для виконання HTTP-запитів використано бібліотеку axios.
+Оголоси наступні операції:
+fetchContacts - одержання масиву контактів (метод GET) запитом. Базовий тип екшену це рядок "contacts/fetchAll".
+addContact - додавання нового контакту (метод POST). Базовий тип екшену це рядок "contacts/addContact".
+deleteContact - видалення контакту по ID (метод DELETE). Базовий тип екшену це рядок "contacts/deleteContact".
+Для коректного опрацювання помилки HTTP-запиту в середині операцій, використай конструкцію try...catch, та у блоці catch поверни результат виклику методу thunkAPI.rejectWithValue.
+Обробку усіх трьох екшенів (fulfilled, rejected, pending) та зміну даних у стані Redux зроби у властивості extraReducers слайсу контактів, а от властивість reducers з нього — прибери.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Мемоізація селекторів
+Після додавання властивостей loading та error у слайс контактів, виникне проблема оптимізаціі фільтрування контактів, так як вираз фільтрування буде виконуватись не тільки при зміні контактів або фільтру, а також при зміні loading та error.
+Для вирішення цієї задачі:
+У файлі слайсу контактів contactsSlice.js створи та експортуй мемоізований селектор selectFilteredContacts за допомогою функції createSelector.
+Селектор повинен залежати від поточних масиву контактів і значення фільтра, та повертати відфільтрований масив контактів.
+Селектор selectFilteredContacts імпортується у компонент списка контактів ContactList.jsx та використовується у useSelector.
