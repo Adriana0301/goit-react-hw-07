@@ -1,0 +1,15 @@
+.contactList {
+
+}
+
+.contactListItem {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 20px;
+    
+
+}
